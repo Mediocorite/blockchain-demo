@@ -18,6 +18,7 @@ const config = {
 	appId: process.env.APP_ID || "myAppId",
 	masterKey: process.env.MASTER_KEY || "", //Add your master key here. Keep it secret!
 	serverURL: process.env.SERVER_URL || "http://localhost:1337/parse", // Don't forget to change to https if needed
+	allowOrigin: `*`,
 	liveQuery: {
 		classNames: ["Posts", "Comments"], // List of classes to support for query subscriptions
 	},
@@ -47,6 +48,10 @@ app.get("/", function(req, res) {
 		);
 });
 
+// Testing custom routes
+app.get("/custom", function(req, res) {
+	res.status(200).send("Hello!");
+});
 // There will be a test page available on the /test path of your server url
 // Remove this before launching your app
 app.get("/test", function(req, res) {

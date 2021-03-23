@@ -52,6 +52,9 @@ app.get("/", function(req, res) {
 app.get("/custom", function(req, res) {
 	res.status(200).send("Hello!");
 });
+app.post("/custom", (req, res) => {
+	res.status(200).send(req.body);
+});
 // There will be a test page available on the /test path of your server url
 // Remove this before launching your app
 app.get("/test", function(req, res) {

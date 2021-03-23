@@ -55,7 +55,7 @@ app.get("/custom", function(req, res) {
 app.post("/custom", (req, res) => {
 	res.statusCode = 200;
 	res.setHeader("Content-Type", "application/json");
-	res.json(req.body);
+	res.json({ Sucess: "Yay" });
 });
 // There will be a test page available on the /test path of your server url
 // Remove this before launching your app

@@ -1,0 +1,23 @@
+{
+  "name": "blockchain-demo",
+  "version": "1.0.0",
+  "description": "A clone of demo app that showcases blockchain functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mediocorite/blockchain-demo.git"
+  },
+  "author": "Anzar Ahmad Malik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mediocorite/blockchain-demo/issues"
+  },
+  "homepage": "https://github.com/Mediocorite/blockchain-demo#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "parse-server": "^4.5.0"
+  }
+}

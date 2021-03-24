@@ -1,31 +1,17 @@
 import React from "react";
+import { blockObject } from "../models/BlockObjectType";
 import { Card, Input, Tag } from "antd";
 import { FileTextOutlined } from "@ant-design/icons";
 import { DownOutlined } from "@ant-design/icons";
 import "../stylesheets/Block.scss";
 interface BlockMiniComponentProps {
-	blockData: {
-		index: number;
-		previoushash: string;
-		timestamp: Date;
-		data: string;
-		hash: string;
-		nonce: number;
-	};
+	blockData: blockObject;
 	hashValidFn: (hash: String) => boolean;
 }
 
 export const BlockMiniComponent: React.FC<BlockMiniComponentProps> = (
 	props
 ) => {
-	// const handleValidation = () => {
-
-	// }
-
-	// const onChange = () => {
-
-	// }
-
 	return (
 		<React.Fragment>
 			<Card hoverable className="container">

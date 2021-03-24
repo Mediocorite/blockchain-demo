@@ -1,106 +1,33 @@
 import React from "react";
-import crypto from "crypto";
+import { blockObject } from "../models/BlockObjectType";
 import { Card, Input, Button, Form } from "antd";
 import { FileTextOutlined, PlusOutlined } from "@ant-design/icons";
 import "../stylesheets/MineBlock.scss";
 
 interface MineBlockComponentProps {
-	bclen: Number;
-	latestBlock: blockObject;
-	hashValidFn: (hash: String) => boolean;
-}
-
-interface blockObject {
-	index: number;
-	previoushash: string;
-	timestamp: Date;
-	data: string;
-	hash: string;
-	nonce: number;
-}
-
-class Block {
-	index: Number;
-	previousHash: String;
-	timestamp: Date;
-	data: String;
-	hash: String;
-	nonce: Number;
-	constructor(
-		index: Number,
-		previousHash: String,
-		timestamp: Date,
-		data: String,
-		hash: String,
-		nonce: Number
-	) {
-		this.index = index;
-		this.previousHash = previousHash;
-		this.timestamp = timestamp;
-		this.data = data;
-		this.hash = hash;
-		this.nonce = nonce;
-	}
+	generateNextBlock: (minedData: string) => blockObject;
 }
 
 export const MineBlockComponent: React.FC<MineBlockComponentProps> = ({
-	bclen,
-	latestBlock,
-	hashValidFn,
+	generateNextBlock,
 }) => {
-	// New Hash Generator
-	const generateHash = (
-		index: Number,
-		previousHash: string,
-		timestamp: Date,
-		data: String,
-		nonce: Number
-	) => {
-		return crypto
-			.createHash("sha256")
-			.update(index + previousHash + timestamp + data + nonce)
-			.digest("hex");
-	};
-
-	const generateNextBlock = (minedData: String) => {
-		const nextIndex = latestBlock.index + 1;
-		const previousHash = latestBlock.hash;
-		let timestamp: Date = new Date(new Date().getTime());
-		let nonce = 0;
-		let nextHash = generateHash(
-			nextIndex,
-			previousHash,
-			timestamp,
-			minedData,
-			nonce
-		);
-		while (!hashValidFn(nextHash)) {
-			nonce = nonce + 1;
-			timestamp = new Date(new Date().getTime());
-			nextHash = generateHash(
-				nextIndex,
-				previousHash,
-				timestamp,
-				minedData,
-				nonce
-			);
-		}
-	};
-
-	const addBlock = () => {};
+	const addBlock = (values: any) => generateNextBlock(values.minedData);
 
 	return (
 		<Card hoverable className="minerblock">
-			<Form>
-				<div style={{ marginBottom: 16 }}>
-					<Input addonBefore="DATA" prefix={<FileTextOutlined />} />
-				</div>
+			<Form name="basic">
+				<Form.Item name="minedData">
+					<div style={{ marginBottom: 16 }}>
+						<Input addonBefore="DATA" prefix={<FileTextOutlined />} />
+					</div>
+				</Form.Item>
 				<Button
 					className="addButton"
 					type="primary"
 					shape="round"
 					icon={<PlusOutlined />}
 					size="large"
+					htmlType="submit"
 					onClick={addBlock}
 				>
 					ADD NEW BLOCK

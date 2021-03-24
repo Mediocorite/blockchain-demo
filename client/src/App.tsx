@@ -1,11 +1,10 @@
 import React from "react";
 import "./App.css";
-import { BlockChainComponent } from "./components/BlockChain";
-
+import Demo from "./components/HeaderWrapper";
 function App() {
 	return (
 		<div className="App">
-			<BlockChainComponent />
+			<Demo />
 		</div>
 	);
 }

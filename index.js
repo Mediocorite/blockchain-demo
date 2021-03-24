@@ -30,7 +30,7 @@ const config = {
 const app = express();
 
 // Serve static assets from the /public folder
-app.use("/public", express.static(path.join(__dirname, "/public")));
+app.use("/", express.static(path.join(__dirname, "/client/build")));
 
 // Serve the Parse API on the /parse URL prefix
 const mountPath = process.env.PARSE_MOUNT || "/parse";
@@ -39,8 +39,10 @@ if (!test) {
 	app.use(mountPath, api);
 }
 
+app.get("/", (req, res) => res.redirect("/blockchain"));
+
 // Parse Server plays nicely with the rest of your web routes
-app.get("/", function(req, res) {
+app.get("/dream", function(req, res) {
 	res
 		.status(200)
 		.send(

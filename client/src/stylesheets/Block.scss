@@ -1,0 +1,56 @@
+@import '~antd/dist/antd.css';
+
+.select-before {
+  width: 90px;
+}
+
+[data-theme='compact'] .select-before {
+  width: 71px;
+}
+
+.container {
+  margin: 20px;
+  padding: 9px;
+}
+
+.previoushash {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow: auto;
+  .label {
+    margin-right: 5px;
+  }
+  .data {
+    font-size: 8px;
+  }
+}
+
+.hash {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow: auto;
+  margin-right: 15px;
+  .label {
+    margin-right: 5px;
+  }
+  .data {
+    font-size: 9px;
+  }
+}
+
+.index {
+  margin-top: 27px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  text-overflow: ellipsis;
+  .indextext {
+    font-size: x-large;
+  }
+}

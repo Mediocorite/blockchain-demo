@@ -1,0 +1,14 @@
+// @import '~antd/lib/style/themes/default.less';
+
+.minerblock {
+  display: flex;
+  margin: 20px 40px;
+  padding: 9px;
+  align-items: center;
+  justify-content: center;
+}
+
+.addButton {
+  margin: 20px;
+  background: linear-gradient(to right, #da2b56, #f69e3f);
+}

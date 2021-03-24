@@ -5,6 +5,10 @@ import { MineBlockComponent } from "./MineBlock";
 import crypto from "crypto";
 
 interface bcProps {}
+interface bcState {
+	difficulty: number;
+	bcArray: blockObject[];
+}
 
 class Block {
 	index: number;
@@ -40,10 +44,6 @@ class Block {
 	}
 }
 
-interface bcState {
-	difficulty: number;
-	bcArray: blockObject[];
-}
 export class BlockChainComponent extends React.Component<bcProps, bcState> {
 	state: bcState = {
 		bcArray: [Block.genesis],
@@ -74,6 +74,7 @@ export class BlockChainComponent extends React.Component<bcProps, bcState> {
 			.digest("hex");
 
 	generateNextBlock = (minedData: string) => {
+		console.log(minedData);
 		const nextIndex: number =
 			this.state.bcArray[this.state.bcArray.length - 1].index + 1;
 		const previoushash: string = this.state.bcArray[
@@ -99,7 +100,6 @@ export class BlockChainComponent extends React.Component<bcProps, bcState> {
 				nonce
 			);
 		}
-
 		const newBlock = new Block(
 			nextIndex,
 			previoushash,
@@ -108,28 +108,18 @@ export class BlockChainComponent extends React.Component<bcProps, bcState> {
 			nextHash,
 			nonce
 		);
-		const newbcArray = this.state.bcArray.concat(newBlock);
-		this.setState({ bcArray: newbcArray }, () =>
-			console.log(this.state.bcArray)
-		);
-		return newBlock;
+		let newBcArray = this.state.bcArray.concat(newBlock);
+		this.setState({ bcArray: newBcArray });
 	};
-
-	blockChainArray = this.state.bcArray.map((blockObject) => {
-		return (
-			<React.Fragment key={blockObject.index}>
-				<BlockMiniComponent
-					blockData={blockObject}
-					hashValidFn={this.isValidHashDifficulty}
-				></BlockMiniComponent>
-			</React.Fragment>
-		);
-	});
 
 	render() {
 		return (
 			<div>
-				{this.blockChainArray}
+				<BlockMiniComponent
+					bcArray={this.state.bcArray}
+					generateHash={this.generateHash}
+					isValidHashDifficulty={this.isValidHashDifficulty}
+				></BlockMiniComponent>
 				<MineBlockComponent
 					generateNextBlock={this.generateNextBlock.bind(this)}
 				/>

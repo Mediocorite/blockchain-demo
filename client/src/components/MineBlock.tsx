@@ -1,25 +1,27 @@
-import React from "react";
-import { blockObject } from "../models/BlockObjectType";
+import React, { Ref } from "react";
+// import { blockObject } from "../models/BlockObjectType";
 import { Card, Input, Button, Form } from "antd";
 import { FileTextOutlined, PlusOutlined } from "@ant-design/icons";
 import "../stylesheets/MineBlock.scss";
 
 interface MineBlockComponentProps {
-	generateNextBlock: (minedData: string) => blockObject;
+	generateNextBlock: (minedData: string) => void;
 }
 
 export const MineBlockComponent: React.FC<MineBlockComponentProps> = ({
 	generateNextBlock,
 }) => {
-	const addBlock = (values: any) => generateNextBlock(values.minedData);
+	const formRef: Ref<any> | undefined = React.createRef();
+	const addBlock = (values: any) => {
+		// console.log(values);
+		generateNextBlock(values.minedData);
+	};
 
 	return (
 		<Card hoverable className="minerblock">
-			<Form name="basic">
+			<Form name="basic" ref={formRef} onFinish={addBlock}>
 				<Form.Item name="minedData">
-					<div style={{ marginBottom: 16 }}>
-						<Input addonBefore="DATA" prefix={<FileTextOutlined />} />
-					</div>
+					<Input addonBefore="DATA" prefix={<FileTextOutlined />} />
 				</Form.Item>
 				<Button
 					className="addButton"
@@ -28,7 +30,6 @@ export const MineBlockComponent: React.FC<MineBlockComponentProps> = ({
 					icon={<PlusOutlined />}
 					size="large"
 					htmlType="submit"
-					onClick={addBlock}
 				>
 					ADD NEW BLOCK
 				</Button>

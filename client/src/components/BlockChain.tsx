@@ -2,46 +2,13 @@ import React from "react";
 import { blockObject } from "../models/BlockObjectType";
 import { BlockMiniComponent } from "./Block";
 import { MineBlockComponent } from "./MineBlock";
+import { Block } from "../logic/BlockType";
 import crypto from "crypto";
 
 interface bcProps {}
 interface bcState {
 	difficulty: number;
 	bcArray: blockObject[];
-}
-
-class Block {
-	index: number;
-	previoushash: string;
-	timestamp: Date;
-	data: string;
-	hash: string;
-	nonce: number;
-	constructor(
-		index: number,
-		previoushash: string,
-		timestamp: Date,
-		data: string,
-		hash: string,
-		nonce: number
-	) {
-		this.index = index;
-		this.previoushash = previoushash;
-		this.timestamp = timestamp;
-		this.data = data;
-		this.hash = hash;
-		this.nonce = nonce;
-	}
-	static get genesis() {
-		return new Block(
-			0,
-			"0",
-			new Date(1508270000000),
-			"Welcome to Blockchain Demo 2.0!",
-			"000dc75a315c77a1f9c98fb6247d03dd18ac52632d7dc6a9920261d8109b37cf",
-			604
-		);
-	}
 }
 
 export class BlockChainComponent extends React.Component<bcProps, bcState> {
@@ -112,13 +79,70 @@ export class BlockChainComponent extends React.Component<bcProps, bcState> {
 		this.setState({ bcArray: newBcArray });
 	};
 
+	errorCheck = (hash: string) => {
+		if (this.isValidHashDifficulty(hash)) {
+			return "green";
+		} else {
+			return "red";
+		}
+	};
+
+	reCompileBlock = (changedIndex: number, changedData: string) => {
+		const targetBlock = this.state.bcArray[changedIndex];
+		// console.log(targetBlock);
+
+		const newHashGenerated = this.generateHash(
+			targetBlock.index,
+			targetBlock.previoushash,
+			targetBlock.timestamp,
+			targetBlock.nonce,
+			changedData
+		);
+		// console.log(newHashGenerated);
+
+		const newBlockWithUpdatedHash = new Block(
+			targetBlock.index,
+			targetBlock.previoushash,
+			targetBlock.timestamp,
+			changedData,
+			newHashGenerated,
+			targetBlock.nonce
+		);
+		// console.log(newBlockWithUpdatedHash);
+
+		const currArray = this.state.bcArray;
+		currArray.splice(changedIndex, 1, newBlockWithUpdatedHash);
+		console.log(currArray);
+
+		this.setState({ bcArray: currArray });
+	};
+
+	onDataChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+		const targetListener =
+			e.target.parentNode?.parentNode?.parentNode?.parentNode?.nextSibling
+				?.nextSibling?.nextSibling?.firstChild?.firstChild?.textContent;
+		// console.log(targetListener);
+		let changedIndex: number;
+		if (targetListener === `GENESIS BLOCK`) {
+			changedIndex = 0;
+		} else if (targetListener === undefined || targetListener === null) {
+			return;
+		} else {
+			const eventArray = targetListener?.split("");
+			changedIndex = parseInt(eventArray[eventArray?.length - 1]);
+			// console.log(changedIndex);
+			this.reCompileBlock(changedIndex, e.target.defaultValue);
+		}
+	};
+
 	render() {
 		return (
 			<div>
 				<BlockMiniComponent
 					bcArray={this.state.bcArray}
-					generateHash={this.generateHash}
-					isValidHashDifficulty={this.isValidHashDifficulty}
+					errorCheck={this.errorCheck}
+					reCompileBlock={this.reCompileBlock}
+					onDataChange={this.onDataChange}
 				></BlockMiniComponent>
 				<MineBlockComponent
 					generateNextBlock={this.generateNextBlock.bind(this)}

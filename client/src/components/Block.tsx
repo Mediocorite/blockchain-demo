@@ -4,55 +4,19 @@ import { Card, Input, Tag } from "antd";
 import { FileTextOutlined } from "@ant-design/icons";
 import { DownOutlined } from "@ant-design/icons";
 import "../stylesheets/Block.scss";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 interface BlockMiniComponentProps {
 	bcArray: blockObject[];
-	generateHash: (
-		index: any,
-		previoushash: any,
-		timestamp: any,
-		data: any,
-		nonce: any
-	) => string;
-	isValidHashDifficulty: (hash: String) => boolean;
+	errorCheck: (hash: string) => "green" | "red";
+	reCompileBlock: (changedIndex: number, changedData: string) => void;
+	onDataChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 export const BlockMiniComponent: React.FC<BlockMiniComponentProps> = ({
 	bcArray,
-	generateHash,
-	isValidHashDifficulty,
+	errorCheck,
+	reCompileBlock,
+	onDataChange,
 }) => {
-	const errorCheck = (hash: string) => {
-		if (isValidHashDifficulty(hash)) {
-			return "green";
-		} else {
-			return "red";
-		}
-	};
-
-	// const onDataChange: React.ChangeEventHandler<HTMLInputElement> = (
-	// 	blockObject: blockObject
-	// ) => {
-	// 	bcArray.splice(blockObject.index, 1, blockObject);
-	// };
-
-	const onDataChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-		const targetListener =
-			e.target.parentNode?.parentNode?.parentNode?.parentNode?.nextSibling
-				?.nextSibling?.nextSibling?.firstChild?.firstChild?.textContent;
-		let changedIndex: number;
-		if (targetListener === `GENESIS BLOCK`) {
-			changedIndex = 0;
-			console.log(changedIndex);
-		} else if (targetListener === undefined || targetListener === null) {
-			return;
-		} else {
-			const eventArray = targetListener?.split("");
-			changedIndex = parseInt(eventArray[eventArray?.length - 1]);
-			console.log(changedIndex);
-		}
-	};
-
 	let renderBlockChain = bcArray.map((blockObject) => {
 		return (
 			<React.Fragment key={blockObject.index}>

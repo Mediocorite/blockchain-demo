@@ -13,7 +13,8 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Zoom from "@material-ui/core/Zoom";
 import { Link as RouterLink } from "react-router-dom";
 import { BlockChainComponent } from "./BlockChain";
-
+import { Switch, Route } from "react-router-dom";
+import SignUp from "../components/SignUp";
 interface Props {
 	window?: () => Window;
 	children: React.ReactElement;
@@ -121,7 +122,10 @@ export default function HeaderWrapper(props: any) {
 			<Toolbar id="back-to-top-anchor" />
 			<Container>
 				<Box my={2}>
-					<BlockChainComponent></BlockChainComponent>
+					<Switch>
+						<Route path="/blockchain" component={BlockChainComponent}></Route>
+						<Route path="/signup" component={SignUp}></Route>
+					</Switch>
 				</Box>
 			</Container>
 			<ScrollTop {...props}>

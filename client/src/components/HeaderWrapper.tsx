@@ -1,3 +1,4 @@
+// region Import Dump, global variables, function and props interfaces
 import React from "react";
 import { Button } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
@@ -84,6 +85,7 @@ function ScrollTop(props: Props) {
 		</Zoom>
 	);
 }
+// endregion
 
 export default function HeaderWrapper(props: any) {
 	const { logo, menuButton, toolbar } = useStyles();

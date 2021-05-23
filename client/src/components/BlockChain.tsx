@@ -47,7 +47,7 @@ export class BlockChainComponent extends React.Component<bcProps, bcState> {
 		const previoushash: string = this.state.bcArray[
 			this.state.bcArray.length - 1
 		].hash;
-		let timestamp: Date = new Date(new Date().getTime());
+		let timestamp: number = new Date(new Date().getTime()).getUTCDate();
 		let nonce: number = 0;
 		let nextHash: string = this.generateHash(
 			nextIndex,
@@ -58,7 +58,7 @@ export class BlockChainComponent extends React.Component<bcProps, bcState> {
 		);
 		while (!this.isValidHashDifficulty(nextHash)) {
 			nonce = nonce + 1;
-			timestamp = new Date(new Date().getTime());
+			timestamp = new Date(new Date().getTime()).getUTCDate();
 			nextHash = this.generateHash(
 				nextIndex,
 				previoushash,
@@ -76,7 +76,10 @@ export class BlockChainComponent extends React.Component<bcProps, bcState> {
 			nonce
 		);
 		let newBcArray = this.state.bcArray.concat(newBlock);
-		this.setState({ bcArray: newBcArray });
+		this.setState({
+				bcArray: newBcArray
+			}
+		);
 	};
 
 	errorCheck = (hash: string) => {
@@ -89,7 +92,6 @@ export class BlockChainComponent extends React.Component<bcProps, bcState> {
 
 	reCompileBlock = (changedIndex: number, changedData: string) => {
 		const targetBlock = this.state.bcArray[changedIndex];
-		// console.log(targetBlock);
 
 		const newHashGenerated = this.generateHash(
 			targetBlock.index,
@@ -103,7 +105,7 @@ export class BlockChainComponent extends React.Component<bcProps, bcState> {
 		const newBlockWithUpdatedHash = new Block(
 			targetBlock.index,
 			targetBlock.previoushash,
-			targetBlock.timestamp,
+			new Date(targetBlock.timestamp).getUTCDate(),
 			changedData,
 			newHashGenerated,
 			targetBlock.nonce
